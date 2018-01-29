@@ -11,11 +11,12 @@ type Todo struct {
 	Task string
 }
 
+var tbl dynamo.Table
+
 // Create registers todo.
 func Create(task string) error {
-	dy := model.DynamoDb()
-	tbl := table(dy)
-	cnt, err := count(tbl)
+	tbl = table()
+	cnt, err := count()
 	if err != nil {
 		return err
 	}
@@ -23,15 +24,28 @@ func Create(task string) error {
 	return tbl.Put(t).Run()
 }
 
-func count(table dynamo.Table) (int, error) {
+// List selects all data.
+func List() ([]Todo, error) {
+	tbl = table()
 	var todos []Todo
-	err := table.Scan().All(&todos)
+	err := tbl.Scan().All(&todos)
+	if err != nil {
+		return nil, err
+	}
+	return todos, nil
+}
+
+func count() (int, error) {
+	todos, err := List()
 	if err != nil {
 		return 0, err
 	}
 	return len(todos), nil
 }
 
-func table(dy *dynamo.DB) dynamo.Table {
-	return dy.Table("go_todos")
+func table() dynamo.Table {
+	if tbl.Name() == "" {
+		return model.Table("go_todos")
+	}
+	return tbl
 }
