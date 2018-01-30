@@ -7,8 +7,8 @@ import (
 
 // Todo is todo data in DynamoDb.
 type Todo struct {
-	ID   int
-	Task string
+	ID   int    `json:"id"`
+	Task string `json:"task"`
 }
 
 var tbl dynamo.Table

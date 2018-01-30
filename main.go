@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 
@@ -18,18 +19,31 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		case "POST":
 			err := todos.Create(request.Body)
 			if err != nil {
-				return events.APIGatewayProxyResponse{Body: "", StatusCode: 500}, err
+				return errorResponse(err)
 			}
-			return events.APIGatewayProxyResponse{Body: "post!", StatusCode: 200}, nil
+			return successResponse("")
 		case "GET":
 			todos, err := todos.List()
 			if err != nil {
-				return events.APIGatewayProxyResponse{Body: "", StatusCode: 500}, err
+				return errorResponse(err)
 			}
-			return events.APIGatewayProxyResponse{Body: fmt.Sprintf("%v", todos), StatusCode: 200}, nil
+			data, err := json.Marshal(todos)
+			if err != nil {
+				return errorResponse(err)
+			}
+			return successResponse(string(data))
 		}
 	}
-	return events.APIGatewayProxyResponse{Body: "", StatusCode: 500}, errors.New("Unhandled Request")
+	return errorResponse(errors.New("Unhandled Request"))
+}
+
+func successResponse(body string) (events.APIGatewayProxyResponse, error) {
+	return events.APIGatewayProxyResponse{StatusCode: 200, Body: body}, nil
+}
+
+func errorResponse(err error) (events.APIGatewayProxyResponse, error) {
+	fmt.Printf("%+v\n", err)
+	return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Internal Server Error!"}, nil
 }
 
 func main() {

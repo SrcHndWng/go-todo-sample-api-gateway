@@ -158,6 +158,13 @@ resources:
                 - dynamodb:UpdateItem
                 - dynamodb:DeleteItem
               Resource: arn:aws:dynamodb:ap-northeast-1:*:table/*
+            -
+              Effect: "Allow"
+              Action:
+                - logs:CreateLogGroup
+                - logs:CreateLogStream
+                - logs:PutLogEvents
+              Resource: arn:aws:logs:ap-northeast-1:*:*
         Roles: 
           - 
             Ref: "RootRole"
