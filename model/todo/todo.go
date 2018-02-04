@@ -53,6 +53,16 @@ func Update(id int, task string) error {
 	return nil
 }
 
+// Delete remove data
+func Delete(id int) error {
+	tbl = table()
+	err := tbl.Delete("ID", id).Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func count() (int, error) {
 	todos, err := List()
 	if err != nil {

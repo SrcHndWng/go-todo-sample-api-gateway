@@ -27,3 +27,8 @@ func Get(id int) (todo.Todo, error) {
 func Update(id int, task string) error {
 	return todo.Update(id, task)
 }
+
+// Delete controller.
+func Delete(id int) error {
+	return todo.Delete(id)
+}

@@ -60,6 +60,16 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 				return errorResponse(err)
 			}
 			return successResponse("")
+		case "DELETE":
+			id, err := strconv.Atoi(request.PathParameters["id"])
+			if err != nil {
+				return errorResponse(err)
+			}
+			err = todos.Delete(id)
+			if err != nil {
+				return errorResponse(err)
+			}
+			return successResponse("")
 		}
 	}
 	return errorResponse(errors.New("Unhandled Request"))

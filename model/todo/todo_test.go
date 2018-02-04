@@ -34,3 +34,10 @@ func TestUpdate(t *testing.T) {
 		t.Fatalf("error raise. %#v", err)
 	}
 }
+
+func TestDelete(t *testing.T) {
+	err := Delete(4)
+	if err != nil {
+		t.Fatalf("error raise. %#v", err)
+	}
+}
