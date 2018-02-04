@@ -17,3 +17,8 @@ func List() ([]todo.Todo, error) {
 	}
 	return todos, nil
 }
+
+// Get controller.
+func Get(id int) (todo.Todo, error) {
+	return todo.Get(id)
+}

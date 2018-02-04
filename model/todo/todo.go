@@ -35,6 +35,14 @@ func List() ([]Todo, error) {
 	return todos, nil
 }
 
+// Get selects by id
+func Get(id int) (Todo, error) {
+	tbl = table()
+	var todo Todo
+	err := tbl.Get("ID", id).One(&todo)
+	return todo, err
+}
+
 func count() (int, error) {
 	todos, err := List()
 	if err != nil {

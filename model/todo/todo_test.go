@@ -19,3 +19,11 @@ func TestList(t *testing.T) {
 	}
 	fmt.Printf("result count = %d, data = %v\n", len(todos), todos)
 }
+
+func TestGet(t *testing.T) {
+	todo, err := Get(2)
+	if err != nil {
+		t.Fatalf("error raise. %#v", err)
+	}
+	fmt.Printf("result = %v\n", todo)
+}
