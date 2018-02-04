@@ -11,11 +11,7 @@ func Create(task string) error {
 
 // List controller.
 func List() ([]todo.Todo, error) {
-	todos, err := todo.List()
-	if err != nil {
-		return nil, err
-	}
-	return todos, nil
+	return todo.List()
 }
 
 // Get controller.

@@ -14,61 +14,50 @@ type Todo struct {
 var tbl dynamo.Table
 
 // Create registers todo.
-func Create(task string) error {
+func Create(task string) (err error) {
 	tbl = table()
-	cnt, err := count()
-	if err != nil {
-		return err
+	var cnt int
+	if cnt, err = count(); err != nil {
+		return
 	}
 	t := Todo{ID: cnt + 1, Task: task}
-	return tbl.Put(t).Run()
+	err = tbl.Put(t).Run()
+	return
 }
 
 // List selects all data.
-func List() ([]Todo, error) {
+func List() (todos []Todo, err error) {
 	tbl = table()
-	var todos []Todo
-	err := tbl.Scan().All(&todos)
-	if err != nil {
-		return nil, err
-	}
-	return todos, nil
+	err = tbl.Scan().All(&todos)
+	return
 }
 
 // Get selects by id
-func Get(id int) (Todo, error) {
+func Get(id int) (todo Todo, err error) {
 	tbl = table()
-	var todo Todo
-	err := tbl.Get("ID", id).One(&todo)
-	return todo, err
+	err = tbl.Get("ID", id).One(&todo)
+	return
 }
 
 // Update replaces data
 func Update(id int, task string) error {
 	tbl = table()
-	err := tbl.Update("ID", id).Set("Task", task).Run()
-	if err != nil {
-		return err
-	}
-	return nil
+	return tbl.Update("ID", id).Set("Task", task).Run()
 }
 
 // Delete remove data
 func Delete(id int) error {
 	tbl = table()
-	err := tbl.Delete("ID", id).Run()
-	if err != nil {
-		return err
-	}
-	return nil
+	return tbl.Delete("ID", id).Run()
 }
 
-func count() (int, error) {
-	todos, err := List()
-	if err != nil {
-		return 0, err
+func count() (cnt int, err error) {
+	var todos []Todo
+	if todos, err = List(); err != nil {
+		return
 	}
-	return len(todos), nil
+	cnt = len(todos)
+	return
 }
 
 func table() dynamo.Table {

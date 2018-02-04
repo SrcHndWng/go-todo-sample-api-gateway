@@ -10,63 +10,60 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 
 	"./api/todos"
+	"./model/todo"
 )
 
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var id int
+	var datas []todo.Todo
+	var data todo.Todo
+	var b []byte
+	var err error
+
 	switch request.Resource {
 	case "/todos":
 		switch request.HTTPMethod {
 		case "POST":
-			err := todos.Create(request.Body)
-			if err != nil {
+			if err = todos.Create(request.Body); err != nil {
 				return errorResponse(err)
 			}
 			return successResponse("")
 		case "GET":
-			todos, err := todos.List()
-			if err != nil {
+			if datas, err = todos.List(); err != nil {
 				return errorResponse(err)
 			}
-			data, err := json.Marshal(todos)
-			if err != nil {
+			if b, err = json.Marshal(datas); err != nil {
 				return errorResponse(err)
 			}
-			return successResponse(string(data))
+			return successResponse(string(b))
 		}
 	case "/todos/{id}":
 		switch request.HTTPMethod {
 		case "GET":
-			id, err := strconv.Atoi(request.PathParameters["id"])
-			if err != nil {
+			if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 				return errorResponse(err)
 			}
-			todo, err := todos.Get(id)
-			if err != nil {
+			if data, err = todos.Get(id); err != nil {
 				return errorResponse(err)
 			}
-			data, err := json.Marshal(todo)
-			if err != nil {
+			if b, err = json.Marshal(data); err != nil {
 				return errorResponse(err)
 			}
-			return successResponse(string(data))
+			return successResponse(string(b))
 		case "PUT":
-			id, err := strconv.Atoi(request.PathParameters["id"])
-			if err != nil {
+			if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 				return errorResponse(err)
 			}
-			err = todos.Update(id, request.Body)
-			if err != nil {
+			if err = todos.Update(id, request.Body); err != nil {
 				return errorResponse(err)
 			}
 			return successResponse("")
 		case "DELETE":
-			id, err := strconv.Atoi(request.PathParameters["id"])
-			if err != nil {
+			if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 				return errorResponse(err)
 			}
-			err = todos.Delete(id)
-			if err != nil {
+			if err = todos.Delete(id); err != nil {
 				return errorResponse(err)
 			}
 			return successResponse("")
