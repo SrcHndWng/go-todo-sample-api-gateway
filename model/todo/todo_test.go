@@ -27,3 +27,10 @@ func TestGet(t *testing.T) {
 	}
 	fmt.Printf("result = %v\n", todo)
 }
+
+func TestUpdate(t *testing.T) {
+	err := Update(2, "test update")
+	if err != nil {
+		t.Fatalf("error raise. %#v", err)
+	}
+}

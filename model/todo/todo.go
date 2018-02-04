@@ -43,6 +43,16 @@ func Get(id int) (Todo, error) {
 	return todo, err
 }
 
+// Update replaces data
+func Update(id int, task string) error {
+	tbl = table()
+	err := tbl.Update("ID", id).Set("Task", task).Run()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func count() (int, error) {
 	todos, err := List()
 	if err != nil {

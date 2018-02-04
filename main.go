@@ -35,21 +35,32 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 			return successResponse(string(data))
 		}
 	case "/todos/{id}":
-		// fmt.Printf("PathParameters[:id] = %v\n", request.PathParameters["id"])
-		// return successResponse("/todos/{id}")
-		id, err := strconv.Atoi(request.PathParameters["id"])
-		if err != nil {
-			return errorResponse(err)
+		switch request.HTTPMethod {
+		case "GET":
+			id, err := strconv.Atoi(request.PathParameters["id"])
+			if err != nil {
+				return errorResponse(err)
+			}
+			todo, err := todos.Get(id)
+			if err != nil {
+				return errorResponse(err)
+			}
+			data, err := json.Marshal(todo)
+			if err != nil {
+				return errorResponse(err)
+			}
+			return successResponse(string(data))
+		case "PUT":
+			id, err := strconv.Atoi(request.PathParameters["id"])
+			if err != nil {
+				return errorResponse(err)
+			}
+			err = todos.Update(id, request.Body)
+			if err != nil {
+				return errorResponse(err)
+			}
+			return successResponse("")
 		}
-		todo, err := todos.Get(id)
-		if err != nil {
-			return errorResponse(err)
-		}
-		data, err := json.Marshal(todo)
-		if err != nil {
-			return errorResponse(err)
-		}
-		return successResponse(string(data))
 	}
 	return errorResponse(errors.New("Unhandled Request"))
 }

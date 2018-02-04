@@ -22,3 +22,8 @@ func List() ([]todo.Todo, error) {
 func Get(id int) (todo.Todo, error) {
 	return todo.Get(id)
 }
+
+// Update controller.
+func Update(id int, task string) error {
+	return todo.Update(id, task)
+}

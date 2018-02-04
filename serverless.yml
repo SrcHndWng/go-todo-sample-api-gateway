@@ -73,7 +73,12 @@ functions:
       - http:
           path: todos/{id}
           method: get
-
+  update:
+    handler: bin/main
+    events:
+      - http:
+          path: todos/{id}
+          method: put
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
