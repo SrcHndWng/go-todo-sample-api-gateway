@@ -5,10 +5,12 @@ Todoを登録・削除・参照するAPIのサンプル。
 Serverless Framework、API Gateway + Lambda、DynamoDbを使用。
 
 ## テストについて
-    * 現時点ではテストはDynamoDbを直に更新している。
+
+* 現時点ではテストはDynamoDbを直に更新している。
     
 ## Todoの採番について
-    * 採番についてはテーブル内のデータ数 + 1をしている。
+
+* 採番についてはテーブル内のデータ数 + 1をしている。
 
 # Compile & Deploy
 
