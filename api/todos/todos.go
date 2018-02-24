@@ -1,7 +1,7 @@
 package todos
 
 import (
-	"../../model/todo"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
 )
 
 // Create controller.

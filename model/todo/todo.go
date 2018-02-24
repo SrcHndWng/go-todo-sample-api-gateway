@@ -1,7 +1,7 @@
 package todo
 
 import (
-	"../../model"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/model"
 	"github.com/guregu/dynamo"
 )
 

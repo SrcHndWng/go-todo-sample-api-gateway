@@ -9,8 +9,8 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	"./api/todos"
-	"./model/todo"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/api/todos"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
 )
 
 // Handler is the only one entry point.
