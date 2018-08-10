@@ -56,31 +56,31 @@ package:
 
 functions:
   create:
-    handler: bin/main
+    handler: bin/post
     events:
       - http:
           path: todos
           method: post
   list:
-    handler: bin/main
+    handler: bin/get
     events:
       - http:
           path: todos
           method: get
   get:
-    handler: bin/main
+    handler: bin/get
     events:
       - http:
           path: todos/{id}
           method: get
   update:
-    handler: bin/main
+    handler: bin/put
     events:
       - http:
           path: todos/{id}
           method: put
   delete:
-    handler: bin/main
+    handler: bin/delete
     events:
       - http:
           path: todos/{id}

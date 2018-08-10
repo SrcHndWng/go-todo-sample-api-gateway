@@ -17,13 +17,13 @@ Serverless Framework、API Gateway + Lambda、DynamoDbを使用。
 0. Compile & Deploy
 
 ```
-$ GOOS=linux go build -o bin/main; serverless deploy;
+$ make build; serverless deploy;
 ```
 
 1. Compile function
 
 ```
-$ GOOS=linux go build -o bin/main
+$ make build
 ```
 
 2. Deploy!
