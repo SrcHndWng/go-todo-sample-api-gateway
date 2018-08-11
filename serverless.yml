@@ -24,10 +24,14 @@ provider:
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
+  stage: ${opt:stage, self:custom.defaultStage}
   region: ap-northeast-1
   timeout: 30
   role: RootRole
 
+custom:
+  defaultStage: dev
+  resouces_yml: resources.${self:provider.stage}.yml
 # you can add statements to the Lambda function's IAM Role here
 #  iamRoleStatements:
 #    - Effect: "Allow"
@@ -131,64 +135,4 @@ functions:
 #       Value: "Some output value"
 resources: 
   Resources:
-    DynamoDbTable:
-      Type: AWS::DynamoDB::Table
-      Properties:
-        TableName: go_todos
-        AttributeDefinitions:
-          - AttributeName: ID
-            AttributeType: N
-        KeySchema:
-          - AttributeName: ID
-            KeyType: HASH
-        ProvisionedThroughput:
-          ReadCapacityUnits: 5
-          WriteCapacityUnits: 5
-    RootRole: 
-      Type: "AWS::IAM::Role"
-      Properties: 
-        AssumeRolePolicyDocument: 
-          Version: "2012-10-17"
-          Statement: 
-            - 
-              Effect: "Allow"
-              Principal: 
-                Service: 
-                  - "lambda.amazonaws.com"
-              Action: 
-                - "sts:AssumeRole"
-        Path: "/"
-    RolePolicies: 
-      Type: "AWS::IAM::Policy"
-      Properties: 
-        PolicyName: "root"
-        PolicyDocument: 
-          Version: "2012-10-17"
-          Statement: 
-            - 
-              Effect: "Allow"
-              Action:
-                - dynamodb:Query
-                - dynamodb:Scan
-                - dynamodb:GetItem
-                - dynamodb:PutItem
-                - dynamodb:UpdateItem
-                - dynamodb:DeleteItem
-              Resource: arn:aws:dynamodb:ap-northeast-1:*:table/*
-            -
-              Effect: "Allow"
-              Action:
-                - logs:CreateLogGroup
-                - logs:CreateLogStream
-                - logs:PutLogEvents
-              Resource: arn:aws:logs:ap-northeast-1:*:*
-        Roles: 
-          - 
-            Ref: "RootRole"
-    RootInstanceProfile: 
-      Type: "AWS::IAM::InstanceProfile"
-      Properties: 
-        Path: "/"
-        Roles: 
-          - 
-            Ref: "RootRole"
+    ${file(${self:custom.resouces_yml}):Resources}
