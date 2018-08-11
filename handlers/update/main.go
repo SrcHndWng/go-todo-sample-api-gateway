@@ -4,10 +4,9 @@ import (
 	"fmt"
 	"strconv"
 
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
-
-	"github.com/SrcHndWng/go-todo-sample-api-gateway/api/todos"
 )
 
 // Handler is the only one entry point.
@@ -18,7 +17,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 		return errorResponse(err)
 	}
-	if err = todos.Update(id, request.Body); err != nil {
+	if err = todo.Update(id, request.Body); err != nil {
 		return errorResponse(err)
 	}
 	return successResponse("")

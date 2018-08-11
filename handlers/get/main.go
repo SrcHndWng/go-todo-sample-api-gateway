@@ -8,7 +8,6 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
-	"github.com/SrcHndWng/go-todo-sample-api-gateway/api/todos"
 	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
 )
 
@@ -22,7 +21,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 		return errorResponse(err)
 	}
-	if data, err = todos.Get(id); err != nil {
+	if data, err = todo.Get(id); err != nil {
 		return errorResponse(err)
 	}
 	if b, err = json.Marshal(data); err != nil {
