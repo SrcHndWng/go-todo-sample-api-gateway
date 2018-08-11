@@ -25,7 +25,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 		return response.Error(err)
 	}
-	todo := model.Todo{}
+	todo := model.NewTodo()
 	if exist, err = todo.IsExist(id); err != nil {
 		return response.Error(err)
 	}

@@ -6,7 +6,7 @@ import (
 )
 
 func TestCreate(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	err := todo.Create("test task.")
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
@@ -14,7 +14,7 @@ func TestCreate(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	todos, err := todo.List()
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
@@ -23,7 +23,7 @@ func TestList(t *testing.T) {
 }
 
 func TestIsExist(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	result, err := todo.IsExist(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
@@ -38,7 +38,7 @@ func TestIsExist(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	data, err := todo.Get(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
@@ -47,7 +47,7 @@ func TestGet(t *testing.T) {
 }
 
 func TestUpdate(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	err := todo.Update(2, "test update")
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
@@ -55,7 +55,7 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	todo := Todo{}
+	todo := NewTodo()
 	err := todo.Delete(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)

@@ -9,7 +9,7 @@ import (
 
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	todo := model.Todo{}
+	todo := model.NewTodo()
 	if err := todo.Create(request.Body); err != nil {
 		return response.Error(err)
 	}

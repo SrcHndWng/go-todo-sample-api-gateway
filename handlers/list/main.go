@@ -18,7 +18,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		b     []byte
 	)
 
-	todo := model.Todo{}
+	todo := model.NewTodo()
 	if datas, err = todo.List(); err != nil {
 		return response.Error(err)
 	}
