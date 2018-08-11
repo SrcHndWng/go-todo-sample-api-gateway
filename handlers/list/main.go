@@ -12,12 +12,16 @@ import (
 
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	datas, err := todo.List()
-	if err != nil {
+	var (
+		datas []todo.Todo
+		err   error
+		b     []byte
+	)
+
+	if datas, err = todo.List(); err != nil {
 		return response.Error(err)
 	}
-	b, err := json.Marshal(datas)
-	if err != nil {
+	if b, err = json.Marshal(datas); err != nil {
 		return response.Error(err)
 	}
 	return response.Success(string(b))

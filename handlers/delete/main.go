@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
@@ -11,11 +12,22 @@ import (
 
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	id, err := strconv.Atoi(request.PathParameters["id"])
-	if err != nil {
+	var (
+		id    int
+		err   error
+		exist bool
+	)
+
+	if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 		return response.Error(err)
 	}
-	if err := todo.Delete(id); err != nil {
+	if exist, err = todo.IsExist(id); err != nil {
+		return response.Error(err)
+	}
+	if !exist {
+		return response.NotFound(fmt.Sprintf("id = %v not found.", id))
+	}
+	if err = todo.Delete(id); err != nil {
 		return response.Error(err)
 	}
 	return response.Success("")

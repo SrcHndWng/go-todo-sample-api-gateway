@@ -20,6 +20,20 @@ func TestList(t *testing.T) {
 	fmt.Printf("result count = %d, data = %v\n", len(todos), todos)
 }
 
+func TestIsExist(t *testing.T) {
+	result, err := IsExist(2)
+	if err != nil {
+		t.Fatalf("error raise. %#v", err)
+	}
+	fmt.Printf("id exists. result = %v\n", result)
+
+	result, err = IsExist(0)
+	if err != nil {
+		t.Fatalf("error raise. %#v", err)
+	}
+	fmt.Printf("id not exists. result = %v\n", result)
+}
+
 func TestGet(t *testing.T) {
 	todo, err := Get(2)
 	if err != nil {

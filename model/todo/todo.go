@@ -32,6 +32,14 @@ func List() (todos []Todo, err error) {
 	return
 }
 
+// IsExist returns whether id exists.
+func IsExist(id int) (result bool, err error) {
+	tbl = table()
+	cnt, err := tbl.Get("ID", id).Count()
+	result = (cnt == 1)
+	return
+}
+
 // Get selects by id
 func Get(id int) (todo Todo, err error) {
 	tbl = table()
