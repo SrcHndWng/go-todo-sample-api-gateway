@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/model"
 	"github.com/SrcHndWng/go-todo-sample-api-gateway/response"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -21,6 +21,7 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	if id, err = strconv.Atoi(request.PathParameters["id"]); err != nil {
 		return response.Error(err)
 	}
+	todo := model.Todo{}
 	if exist, err = todo.IsExist(id); err != nil {
 		return response.Error(err)
 	}

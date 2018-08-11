@@ -2,6 +2,7 @@ bin
 
 # Serverless directories
 .serverless
+.vscode/
 
 MEMO.md
-*/*/*.test
+*/*.test

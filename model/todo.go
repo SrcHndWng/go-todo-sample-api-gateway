@@ -1,7 +1,6 @@
-package todo
+package model
 
 import (
-	"github.com/SrcHndWng/go-todo-sample-api-gateway/model"
 	"github.com/guregu/dynamo"
 )
 
@@ -14,63 +13,63 @@ type Todo struct {
 var tbl dynamo.Table
 
 // Create registers todo.
-func Create(task string) (err error) {
-	tbl = table()
+func (t *Todo) Create(task string) (err error) {
+	tbl = t.table()
 	var cnt int
-	if cnt, err = count(); err != nil {
+	if cnt, err = t.count(); err != nil {
 		return
 	}
-	t := Todo{ID: cnt + 1, Task: task}
-	err = tbl.Put(t).Run()
+	data := Todo{ID: cnt + 1, Task: task}
+	err = tbl.Put(data).Run()
 	return
 }
 
 // List selects all data.
-func List() (todos []Todo, err error) {
-	tbl = table()
+func (t *Todo) List() (todos []Todo, err error) {
+	tbl = t.table()
 	err = tbl.Scan().All(&todos)
 	return
 }
 
 // IsExist returns whether id exists.
-func IsExist(id int) (result bool, err error) {
-	tbl = table()
+func (t *Todo) IsExist(id int) (result bool, err error) {
+	tbl = t.table()
 	cnt, err := tbl.Get("ID", id).Count()
 	result = (cnt == 1)
 	return
 }
 
 // Get selects by id
-func Get(id int) (todo Todo, err error) {
-	tbl = table()
+func (t *Todo) Get(id int) (todo Todo, err error) {
+	tbl = t.table()
 	err = tbl.Get("ID", id).One(&todo)
 	return
 }
 
 // Update replaces data
-func Update(id int, task string) error {
-	tbl = table()
+func (t *Todo) Update(id int, task string) error {
+	tbl = t.table()
 	return tbl.Update("ID", id).Set("Task", task).Run()
 }
 
 // Delete remove data
-func Delete(id int) error {
-	tbl = table()
+func (t *Todo) Delete(id int) error {
+	tbl = t.table()
 	return tbl.Delete("ID", id).Run()
 }
 
-func count() (cnt int, err error) {
+func (t *Todo) count() (cnt int, err error) {
 	var todos []Todo
-	if todos, err = List(); err != nil {
+	if todos, err = t.List(); err != nil {
 		return
 	}
 	cnt = len(todos)
 	return
 }
 
-func table() dynamo.Table {
+func (t *Todo) table() dynamo.Table {
 	if tbl.Name() == "" {
-		return model.Table("go_todos")
+		return Table("go_todos")
 	}
 	return tbl
 }

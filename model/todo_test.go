@@ -1,4 +1,4 @@
-package todo
+package model
 
 import (
 	"fmt"
@@ -6,14 +6,16 @@ import (
 )
 
 func TestCreate(t *testing.T) {
-	err := Create("test task.")
+	todo := Todo{}
+	err := todo.Create("test task.")
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
 }
 
 func TestList(t *testing.T) {
-	todos, err := List()
+	todo := Todo{}
+	todos, err := todo.List()
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
@@ -21,13 +23,14 @@ func TestList(t *testing.T) {
 }
 
 func TestIsExist(t *testing.T) {
-	result, err := IsExist(2)
+	todo := Todo{}
+	result, err := todo.IsExist(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
 	fmt.Printf("id exists. result = %v\n", result)
 
-	result, err = IsExist(0)
+	result, err = todo.IsExist(0)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
@@ -35,22 +38,25 @@ func TestIsExist(t *testing.T) {
 }
 
 func TestGet(t *testing.T) {
-	todo, err := Get(2)
+	todo := Todo{}
+	data, err := todo.Get(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
-	fmt.Printf("result = %v\n", todo)
+	fmt.Printf("result = %v\n", data)
 }
 
 func TestUpdate(t *testing.T) {
-	err := Update(2, "test update")
+	todo := Todo{}
+	err := todo.Update(2, "test update")
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
 }
 
 func TestDelete(t *testing.T) {
-	err := Delete(4)
+	todo := Todo{}
+	err := todo.Delete(2)
 	if err != nil {
 		t.Fatalf("error raise. %#v", err)
 	}
