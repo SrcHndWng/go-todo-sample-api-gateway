@@ -2,36 +2,25 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 
 	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/response"
 )
 
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	var datas []todo.Todo
-	var b []byte
-	var err error
-
-	if datas, err = todo.List(); err != nil {
-		return errorResponse(err)
+	datas, err := todo.List()
+	if err != nil {
+		return response.Error(err)
 	}
-	if b, err = json.Marshal(datas); err != nil {
-		return errorResponse(err)
+	b, err := json.Marshal(datas)
+	if err != nil {
+		return response.Error(err)
 	}
-	return successResponse(string(b))
-}
-
-func successResponse(body string) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{StatusCode: 200, Body: body}, nil
-}
-
-func errorResponse(err error) (events.APIGatewayProxyResponse, error) {
-	fmt.Printf("%+v\n", err)
-	return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Internal Server Error!"}, nil
+	return response.Success(string(b))
 }
 
 func main() {

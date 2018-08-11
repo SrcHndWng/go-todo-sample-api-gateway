@@ -1,9 +1,8 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/SrcHndWng/go-todo-sample-api-gateway/model/todo"
+	"github.com/SrcHndWng/go-todo-sample-api-gateway/response"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -11,18 +10,9 @@ import (
 // Handler is the only one entry point.
 func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	if err := todo.Create(request.Body); err != nil {
-		return errorResponse(err)
+		return response.Error(err)
 	}
-	return successResponse("")
-}
-
-func successResponse(body string) (events.APIGatewayProxyResponse, error) {
-	return events.APIGatewayProxyResponse{StatusCode: 200, Body: body}, nil
-}
-
-func errorResponse(err error) (events.APIGatewayProxyResponse, error) {
-	fmt.Printf("%+v\n", err)
-	return events.APIGatewayProxyResponse{StatusCode: 500, Body: "Internal Server Error!"}, nil
+	return response.Success("")
 }
 
 func main() {
