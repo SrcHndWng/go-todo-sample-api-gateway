@@ -7,6 +7,7 @@ Serverless Framework、API Gateway + Lambda、DynamoDbを使用。
 ## テストについて
 
 * 現時点ではテストはDynamoDbを直に更新している。
+* デプロイ時、「--stage」を指定ない場合は「dev」を指定した場合はテスト用テーブルを作成し、そこをテストでは更新する。
     
 ## Todoの採番について
 
